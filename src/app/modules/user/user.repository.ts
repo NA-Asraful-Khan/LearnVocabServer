@@ -25,6 +25,13 @@ export class UserRepository extends BaseRepository<IUser> {
       throw new AppError(500, 'Error creating student');
     }
   }
+
+  async updateRole(
+    id: string,
+    role: 'admin' | 'user' | undefined,
+  ): Promise<IUser | null> {
+    return await this.update(id, { role });
+  }
 }
 
 export const userRepository = new UserRepository();

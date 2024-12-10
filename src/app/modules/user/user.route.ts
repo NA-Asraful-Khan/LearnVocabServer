@@ -13,6 +13,7 @@ router.post(
 router.get('/', userController.findAll);
 router.get('/pagination', userController.findPaginationQuery);
 router.get('/:id', userController.findById);
+router.patch('/:id', userController.updateUserRole);
 router.delete('/:id', userController.delete);
 
 export const UserRoutes = router;

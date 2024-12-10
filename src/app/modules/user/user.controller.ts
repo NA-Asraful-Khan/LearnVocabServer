@@ -29,6 +29,20 @@ export class UserController extends BaseController<IUser> {
       data: result,
     });
   });
+
+  updateUserRole = catchAsync(async (req, res) => {
+    const user = await (this.service as typeof userService).updateUserRole(
+      req.params.id,
+      req.body.role,
+    );
+
+    handleResponse.sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'Role Updated Successfully successfully',
+      data: user,
+    });
+  });
 }
 
 export const userController = new UserController();

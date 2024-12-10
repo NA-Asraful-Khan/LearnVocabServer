@@ -30,6 +30,22 @@ export class UserService extends BaseService<IUser> {
 
     return user;
   }
+
+  async updateUserRole(id: string, role: 'admin' | 'user') {
+    if (!['admin', 'user'].includes(role)) {
+      throw new AppError(400, 'Invalid Role');
+    }
+
+    const user = await (this.repository as typeof userRepository).updateRole(
+      id,
+      role,
+    );
+    if (!user) {
+      throw new AppError(404, 'No user found with that ID');
+    }
+
+    return user;
+  }
 }
 
 export const userService = new UserService();
