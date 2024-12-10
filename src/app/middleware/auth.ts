@@ -25,7 +25,6 @@ const auth = (...requiredRoles: TUserRole[]) => {
     }
 
     const { role, email } = decoded;
-    console.log(decoded);
     const isUserExists = await userRepository.findByEmail(email);
 
     if (!isUserExists) {
