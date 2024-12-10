@@ -10,8 +10,6 @@ export class UserService extends BaseService<IUser> {
   }
 
   async createUser(password: string, userData: IUser) {
-    const hasEmail = userData?.email;
-
     //Check if the email is already Used
     const checkStudentEmail = await User.findOne({
       email: userData.email,

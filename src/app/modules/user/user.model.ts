@@ -1,4 +1,4 @@
-import mongoose, { Document, model, Schema } from 'mongoose';
+import mongoose, { Document, Model, model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import config from '../../config';
 import { USER_ROLE } from './user.constant';
@@ -12,6 +12,20 @@ export interface IUser extends Document {
   role: 'admin' | 'user';
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
+
+export interface TUserModel extends Model<IUser> {
+  isUserExistsByCustomId(id: string): Promise<IUser>;
+  isPasswordMatched(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean>;
+
+  isJWTIssuedBeforePasswordChanged(
+    passwordChangedTimestamp: Date,
+    jwtIssuedTimestamp: number,
+  ): boolean;
+}
+
 const userSchema = new Schema<IUser>(
   {
     name: {
