@@ -22,7 +22,7 @@ export const updateVocabularySchema = z.object({
     .optional(),
 });
 
-export const UserValidation = {
+export const VocabularyValidation = {
   vocabularySchema,
   updateVocabularySchema,
 };

@@ -4,6 +4,7 @@ import config from '../../config';
 import { USER_ROLE } from './user.constant';
 
 export interface IUser extends Document {
+  length: any;
   name: string;
   email: string;
   password: string;

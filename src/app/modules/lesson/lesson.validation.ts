@@ -21,7 +21,7 @@ export const updateLessonSchema = z.object({
     .optional(),
 });
 
-export const UserValidation = {
+export const LessonValidation = {
   lessonSchema,
   updateLessonSchema,
 };
