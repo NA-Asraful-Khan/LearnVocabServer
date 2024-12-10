@@ -26,7 +26,9 @@ export interface TUserModel extends Model<IUser> {
   ): boolean;
 }
 
-const userSchema = new Schema<IUser>(
+export type TUserRole = (typeof USER_ROLE)[keyof typeof USER_ROLE];
+
+const userSchema = new Schema<IUser, TUserModel>(
   {
     name: {
       type: String,
@@ -73,4 +75,23 @@ userSchema.methods.comparePassword = async function (
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-export const User = model<IUser>('User', userSchema);
+userSchema.statics.isUserExistsByCustomId = async function (email: string) {
+  return await User.findOne({ email }).select('+password');
+};
+
+userSchema.statics.isPasswordMatched = async function (
+  plainTextPassword,
+  hashedPassword,
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
+};
+
+userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
+  passwordChangedTimestamp: Date,
+  jwtIssuedTimestamp: number,
+) {
+  const passwordChangedTime =
+    new Date(passwordChangedTimestamp).getTime() / 1000;
+  return passwordChangedTime > jwtIssuedTimestamp;
+};
+export const User = model<IUser, TUserModel>('User', userSchema);
