@@ -1,0 +1,16 @@
+export const baseConstant = [
+  'id',
+  'email',
+  'name.firstName',
+  'name',
+  'presentAddress',
+  'contactNo',
+  'title',
+  'prefix',
+  'code',
+  'status',
+  'year',
+  'startMonth',
+  'endMonth',
+  'academicFaculty.name',
+];
