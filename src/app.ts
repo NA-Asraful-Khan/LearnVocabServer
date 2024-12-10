@@ -4,10 +4,10 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-// import router from './app/routes';
-import config from './app/config';
+// import config from './app/config';
 import globalErrorHandler from './app/middleware/globalErrorHandler';
 import notFound from './app/middleware/notFound';
+import router from './app/routes';
 
 const app: Application = express();
 
@@ -17,9 +17,9 @@ app.use(cookieParser());
 // app.use(cors({ origin: [config.frontend_url as string], credentials: true }));
 app.use(cors({ origin: true, credentials: true }));
 
-//ApplicationRoute
+// ApplicationRoute
 
-// app.use('/api/v1', router);
+app.use('/api/v1', router);
 
 // Testing Route
 
