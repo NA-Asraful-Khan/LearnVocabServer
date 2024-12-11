@@ -16,6 +16,7 @@ router
     lessonController.create,
   );
 router.get('/pagination', lessonController.findPaginationQuery);
+router.get('/lesson/:id', lessonController.findByLessonNumber);
 router
   .route('/:id')
   .get(lessonController.findById)

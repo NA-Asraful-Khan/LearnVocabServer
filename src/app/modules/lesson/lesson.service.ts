@@ -17,6 +17,10 @@ export class LessonService extends BaseService<ILesson> {
 
     return lesson;
   }
+
+  async findByLessonNumber(lessonNumber: number): Promise<ILesson | null> {
+    return lessonRepository.findByLessonNumber(lessonNumber);
+  }
 }
 
 export const lessonService = new LessonService();
