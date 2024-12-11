@@ -8,8 +8,7 @@ export const vocabularySchema = z.object({
     lessonNo: z
       .number()
       .int()
-      .positive('Lesson number must be a positive integer')
-      .optional(),
+      .positive('Lesson number must be a positive integer'),
   }),
 });
 
