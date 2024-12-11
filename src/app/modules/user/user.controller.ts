@@ -43,6 +43,21 @@ export class UserController extends BaseController<IUser> {
       data: user,
     });
   });
+
+  findByEmailForClient = catchAsync(async (req, res) => {
+    const item = await userService.findByEmailForClient(req.params.email);
+
+    if (item) {
+      handleResponse.sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Item retrieved successfully',
+        data: item,
+      });
+    } else {
+      throw new AppError(httpStatus.NOT_FOUND, 'Item not found');
+    }
+  });
 }
 
 export const userController = new UserController();

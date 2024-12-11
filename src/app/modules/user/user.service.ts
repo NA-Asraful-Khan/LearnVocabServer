@@ -9,6 +9,9 @@ export class UserService extends BaseService<IUser> {
     super(userRepository);
   }
 
+  async findByEmailForClient(email: string): Promise<IUser | null> {
+    return userRepository.findByEmailForClient(email);
+  }
   async createUser(password: string, userData: IUser) {
     //Check if the email is already Used
     const checkStudentEmail = await User.findOne({

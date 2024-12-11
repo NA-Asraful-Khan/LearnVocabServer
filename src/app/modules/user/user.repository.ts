@@ -12,6 +12,9 @@ export class UserRepository extends BaseRepository<IUser> {
   async findByEmail(email: string): Promise<IUser | null> {
     return await this.model.findOne({ email }).select('+password');
   }
+  async findByEmailForClient(email: string): Promise<IUser | null> {
+    return await this.model.findOne({ email: email });
+  }
 
   async createUser(password: string, userData: IUser): Promise<IUser | null> {
     //Use Default Password
