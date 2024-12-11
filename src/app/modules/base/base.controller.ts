@@ -37,6 +37,21 @@ export class BaseController<T extends Document> {
     }
   });
 
+  findOne = catchAsync(async (req, res) => {
+    const item = await this.service.findOne(req.body);
+
+    if (item) {
+      handleResponse.sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Item retrieved successfully',
+        data: item,
+      });
+    } else {
+      throw new AppError(httpStatus.NOT_FOUND, 'Item not found');
+    }
+  });
+
   findAll = catchAsync(async (req: Request, res: Response): Promise<void> => {
     const items = await this.service.findAll();
     handleResponse.sendResponse(res, {

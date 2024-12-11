@@ -14,6 +14,10 @@ export class BaseService<T extends Document> {
     return this.repository.findById(id);
   }
 
+  async findOne(filter: object): Promise<T | null> {
+    return this.repository.findOne(filter);
+  }
+
   async findAll(): Promise<T[]> {
     return this.repository.findAll();
   }
