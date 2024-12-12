@@ -27,7 +27,7 @@ router
   .patch(
     auth(USER_ROLE.admin, USER_ROLE.superAdmin),
     validateRequest(updateVocabularySchema),
-    vocabularyController.update,
+    vocabularyController.updateVocabulary,
   )
   .delete(
     auth(USER_ROLE.admin, USER_ROLE.superAdmin),

@@ -1,7 +1,7 @@
 import AppError from '../../errors/AppError';
 import { BaseService } from '../base/base.service';
 import { lessonRepository } from '../lesson/lesson.repository';
-import { IVocabulary } from './vocabulary.model';
+import { IVocabulary, Vocabulary } from './vocabulary.model';
 import { vocabularyRepository } from './vocabulary.repository';
 
 export class VocabularyService extends BaseService<IVocabulary> {
@@ -26,6 +26,29 @@ export class VocabularyService extends BaseService<IVocabulary> {
     return vocabulary;
   }
 
+  async updateVocabulary(
+    id: string,
+    data: Partial<IVocabulary>,
+  ): Promise<IVocabulary | null> {
+    const currentData = await Vocabulary.findById(id);
+
+    if (currentData?.lessonNo !== data?.lessonNo) {
+      const currentLesson = await lessonRepository.findByLessonNumber(
+        Number(currentData?.lessonNo),
+      );
+      // Explicitly check or cast lesson._id
+      const currentLessonId = currentLesson?._id as string;
+      await lessonRepository.updateVocabularyCount(currentLessonId, -1);
+
+      const updateLesson = await lessonRepository.findByLessonNumber(
+        Number(data?.lessonNo),
+      );
+      const updateLessonId = updateLesson?._id as string;
+      await lessonRepository.updateVocabularyCount(updateLessonId, 1);
+    }
+    return this.repository.update(id, data);
+  }
+
   async deleteVocabulary(id: string) {
     // Find the vocabulary by ID and handle null
     const vocabulary = await this.findById(id);
@@ -47,6 +70,10 @@ export class VocabularyService extends BaseService<IVocabulary> {
     }
 
     return vocabulary;
+  }
+
+  async findByLessonNumber(lessonNumber: number): Promise<IVocabulary | null> {
+    return vocabularyRepository.findByLessonNumber(lessonNumber);
   }
 }
 
