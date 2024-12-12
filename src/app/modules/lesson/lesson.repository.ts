@@ -1,5 +1,7 @@
+import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { BaseRepository } from '../base/base.repository';
+import { Vocabulary } from '../vocabulary/vocabulary.model';
 import { ILesson, Lesson } from './lesson.model';
 
 export class LessonRepository extends BaseRepository<ILesson> {
@@ -37,6 +39,31 @@ export class LessonRepository extends BaseRepository<ILesson> {
     await this.model.findByIdAndUpdate(id, {
       $inc: { vocabularyCount: increment },
     });
+  }
+
+  async deleteLesson(id: string): Promise<ILesson | null> {
+    // Find the lesson by its ID
+    const lesson = await Lesson.findById(id);
+
+    if (!lesson) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Lesson not found');
+      return null;
+    }
+
+    // Delete all vocabulary entries matching the lesson's lessonNumber
+    const result = await Lesson.findByIdAndDelete(id);
+    if (!result) {
+      throw new AppError(500, 'Error Deleting Lesson');
+      return null;
+    }
+    await Vocabulary.deleteMany({ lessonNo: lesson?.lessonNumber });
+
+    console.log(
+      `Deleted Lesson & vocabularies with lessonNumber: ${lesson.lessonNumber}`,
+    );
+
+    // Ensure the result is a valid document or null
+    return result as unknown as ILesson | null;
   }
 }
 

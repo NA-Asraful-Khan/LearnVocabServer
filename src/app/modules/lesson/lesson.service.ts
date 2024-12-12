@@ -21,6 +21,10 @@ export class LessonService extends BaseService<ILesson> {
   async findByLessonNumber(lessonNumber: number): Promise<ILesson | null> {
     return lessonRepository.findByLessonNumber(lessonNumber);
   }
+
+  async deleteLesson(id: string): Promise<ILesson | null> {
+    return lessonRepository.deleteLesson(id);
+  }
 }
 
 export const lessonService = new LessonService();

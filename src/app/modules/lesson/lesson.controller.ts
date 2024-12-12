@@ -12,7 +12,6 @@ export class LessonController extends BaseController<ILesson> {
   }
 
   create = catchAsync(async (req, res): Promise<void> => {
-    console.log(req.body);
     const item = await this.service.create(req.body);
     handleResponse.sendResponse(res, {
       statusCode: httpStatus.CREATED,
@@ -30,6 +29,20 @@ export class LessonController extends BaseController<ILesson> {
         statusCode: httpStatus.OK,
         success: true,
         message: 'Item retrieved successfully',
+        data: item,
+      });
+    } else {
+      throw new AppError(httpStatus.NOT_FOUND, 'Item not found');
+    }
+  });
+
+  deleteLesson = catchAsync(async (req, res): Promise<void> => {
+    const item = await lessonService.deleteLesson(req.params.id);
+    if (item) {
+      handleResponse.sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Item deleted successfully',
         data: item,
       });
     } else {

@@ -25,6 +25,9 @@ router
     validateRequest(LessonValidation.updateLessonSchema),
     lessonController.update,
   )
-  .delete(auth(USER_ROLE.admin, USER_ROLE.superAdmin), lessonController.delete);
+  .delete(
+    auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+    lessonController.deleteLesson,
+  );
 
 export const LessonRoutes = router;
