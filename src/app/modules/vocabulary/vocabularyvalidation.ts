@@ -5,6 +5,7 @@ export const vocabularySchema = z.object({
     word: z.string().min(1, 'Word is required'),
     pronunciation: z.string().min(1, 'Pronunciation is required'),
     whenToSay: z.string().min(1, 'Usage context is required'),
+    meaning: z.string().min(1, 'Meaning is required'),
     lessonNo: z
       .number()
       .int()
@@ -16,6 +17,7 @@ export const updateVocabularySchema = z.object({
   word: z.string().min(1, 'Word is required').optional(),
   pronunciation: z.string().min(1, 'Pronunciation is required').optional(),
   whenToSay: z.string().min(1, 'Usage context is required').optional(),
+  meaning: z.string().min(1, 'Meaning is required').optional(),
   lessonNo: z
     .number()
     .int()
